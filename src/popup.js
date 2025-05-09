@@ -22,6 +22,7 @@ import './popup.css';
     const radios = document.querySelectorAll('input[name="illegalCompanyShowType"]');
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
+        console.log(`[996] illegalCompanyShowType: ${radio.value}`);
         chrome.storage.local.set({
           illegalCompanyShowType: radio.value
         });
@@ -29,12 +30,14 @@ import './popup.css';
     });
 
     document.getElementById('shareIllegalCompanyData').addEventListener('change', (e) => {
+      console.log(`[996] shareIllegalCompanyData: ${e.target.checked}`);
       chrome.storage.local.set({
         shareIllegalCompanyData: e.target.checked
       });
     });
 
     document.getElementById('heightLightIllegalInfoInContext').addEventListener('change', (e) => {
+      console.log(`[996] heightLightIllegalInfoInContext: ${e.target.checked}`);
       chrome.storage.local.set({
         heightLightIllegalInfoInContext: e.target.checked
       });
@@ -75,33 +78,13 @@ import './popup.css';
     },
   };
 
-  function setupCounter(initialValue = 0) {
-    document.getElementById('counter').innerHTML = initialValue;
 
-    document.getElementById('incrementBtn').addEventListener('click', () => {
-      updateCounter({
-        type: 'INCREMENT',
-      });
-    });
-
-    document.getElementById('decrementBtn').addEventListener('click', () => {
-      updateCounter({
-        type: 'DECREMENT',
-      });
-    });
-  }
 
   function updateCounter({ type }) {
     counterStorage.get(count => {
       let newCount;
-
-      if (type === 'INCREMENT') {
-        newCount = count + 1;
-      } else if (type === 'DECREMENT') {
-        newCount = count - 1;
-      } else {
-        newCount = count;
-      }
+      if (type === 'INCREMENT') newCount = count + 1;
+      if (type === 'DECREMENT') newCount = count - 1;
 
       counterStorage.set(newCount, () => {
         document.getElementById('counter').innerHTML = newCount;
@@ -110,9 +93,7 @@ import './popup.css';
         // active tab by sending a message
         chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
           const tab = tabs[0];
-
-          chrome.tabs.sendMessage(
-            tab.id,
+          chrome.tabs.sendMessage(tab.id,
             {
               type: 'COUNT',
               payload: {
@@ -128,32 +109,41 @@ import './popup.css';
     });
   }
 
+  document.addEventListener('DOMContentLoaded', restoreCounter);
+
   function restoreCounter() {
-    // Restore count value
     counterStorage.get(count => {
       if (typeof count === 'undefined') {
-        // Set counter value as 0
-        counterStorage.set(0, () => {
-          setupCounter(0);
-        });
+        counterStorage.set(0, () => setupCounter(0));
       } else {
         setupCounter(count);
       }
     });
   }
 
-  document.addEventListener('DOMContentLoaded', restoreCounter);
+  function setupCounter(initialValue = 0) {
+    document.getElementById('counter').innerHTML = initialValue;
+
+    document.getElementById('incrementBtn').addEventListener('click', () => {
+      updateCounter({type: 'INCREMENT'});
+    });
+
+    document.getElementById('decrementBtn').addEventListener('click', () => {
+      updateCounter({type: 'DECREMENT'});
+    });
+  }
 
   // Communicate with background file by sending a message
   chrome.runtime.sendMessage(
     {
       type: 'GREETINGS',
       payload: {
-        message: '=== Hello, my name is Pop. I am from Popup.',
+        message: 'Hello, my name is Pop. I am from Popup.',
       },
     },
     response => {
       console.log(response.message);
     }
   );
+
 })();
