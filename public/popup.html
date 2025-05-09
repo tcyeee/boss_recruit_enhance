@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
+  <title>Boss直聘拉黑插件</title>
   <link rel="stylesheet" href="popup.css" />
-  <!-- <script src="./popup.js"></script> -->
 </head>
 
 <body>
@@ -12,16 +12,19 @@
     <p class="title">一键拉黑996公司</p>
     <p class="sub-title">拒绝做牛马</p>
 
+    <!-- 设置 -->
     <div class="mt-4 w-80">
+
+      <!-- 黑名单样式 -->
       <div class="mt-2 flex justify-between">
         <div class="setting-label">黑名单样式</div>
-        <div class="radio-group">
-          <input type="radio" id="option1" name="size" value="small" checked>
-          <label for="option1">无</label>
-          <input type="radio" id="option2" name="size" value="medium">
-          <label for="option2">警告</label>
-          <input type="radio" id="option3" name="size" value="large">
-          <label for="option3">隐藏</label>
+        <div class="radio-group" id="illegalCompanyShowType">
+          <input type="radio" id="show_none" name="illegalCompanyShowType" value="none">
+          <label for="show_none">无</label>
+          <input type="radio" id="show_warning" name="illegalCompanyShowType" value="warning">
+          <label for="show_warning">警告</label>
+          <input type="radio" id="show_block" name="illegalCompanyShowType" value="block">
+          <label for="show_block">隐藏</label>
         </div>
       </div>
 
@@ -29,7 +32,7 @@
       <div class="mt-2 flex justify-between">
         <div class="setting-label">共享拉黑信息</div>
         <label class="switch">
-          <input type="checkbox">
+          <input type="checkbox" id="shareIllegalCompanyData">
           <span class="slider"></span>
         </label>
       </div>
@@ -38,18 +41,13 @@
       <div class="mt-2 flex justify-between">
         <div class="setting-label">加班信息高亮</div>
         <label class="switch">
-          <input type="checkbox">
+          <input type="checkbox" id="heightLightIllegalInfoInContext">
           <span class="slider"></span>
         </label>
       </div>
     </div>
-
-    <!-- <div id="counter" class="counter"></div>
-    <div class="button-container">
-      <button id="decrementBtn" class="button">-</button>
-      <button id="incrementBtn" class="button">+</button>
-    </div> -->
   </div>
+  <script src="popup.js"></script>
 </body>
 
 </html>
