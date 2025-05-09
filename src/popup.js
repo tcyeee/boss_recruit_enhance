@@ -4,6 +4,52 @@ import './popup.css';
 
 (function() {
 
+    const defaultSetting = {
+    illegalCompanyShowType: 'none',
+    shareIllegalCompanyData: false,
+    heightLightIllegalInfoInContext: false
+  };
+
+  function loadSettings() {
+    chrome.storage.local.get(defaultSetting, (data) => {
+      document.querySelector(`input[name="illegalCompanyShowType"][value="${data.illegalCompanyShowType}"]`).checked = true;
+      document.getElementById('shareIllegalCompanyData').checked = data.shareIllegalCompanyData;
+      document.getElementById('heightLightIllegalInfoInContext').checked = data.heightLightIllegalInfoInContext;
+    });
+  }
+
+  function bindEvents() {
+    const radios = document.querySelectorAll('input[name="illegalCompanyShowType"]');
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        chrome.storage.local.set({
+          illegalCompanyShowType: radio.value
+        });
+      });
+    });
+
+    document.getElementById('shareIllegalCompanyData').addEventListener('change', (e) => {
+      chrome.storage.local.set({
+        shareIllegalCompanyData: e.target.checked
+      });
+    });
+
+    document.getElementById('heightLightIllegalInfoInContext').addEventListener('change', (e) => {
+      chrome.storage.local.set({
+        heightLightIllegalInfoInContext: e.target.checked
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadSettings();
+    bindEvents();
+  });
+
+
+
+
+
    // We will make use of Storage API to get and store `count` value
   // More information on Storage API can we found at
   // https://developer.chrome.com/extensions/storage
@@ -103,20 +149,6 @@ import './popup.css';
     {
       type: 'GREETINGS',
       payload: {
-        message: 'Hello, my name is Pop. I am from Popup.',
-      },
-    },
-    response => {
-      console.log(response.message);
-    }
-  );
-
-
-  // Communicate with background file by sending a message
-  chrome.runtime.sendMessage(
-    {
-      type: 'GREETINGS',
-      payload: {
         message: '=== Hello, my name is Pop. I am from Popup.',
       },
     },
@@ -124,46 +156,4 @@ import './popup.css';
       console.log(response.message);
     }
   );
-
-  const defaultSetting = {
-    illegalCompanyShowType: 'none',
-    shareIllegalCompanyData: false,
-    heightLightIllegalInfoInContext: false
-  };
-
-  function loadSettings() {
-    chrome.storage.local.get(defaultSetting, (data) => {
-      document.querySelector(`input[name="illegalCompanyShowType"][value="${data.illegalCompanyShowType}"]`).checked = true;
-      document.getElementById('shareIllegalCompanyData').checked = data.shareIllegalCompanyData;
-      document.getElementById('heightLightIllegalInfoInContext').checked = data.heightLightIllegalInfoInContext;
-    });
-  }
-
-  function bindEvents() {
-    const radios = document.querySelectorAll('input[name="illegalCompanyShowType"]');
-    radios.forEach(radio => {
-      radio.addEventListener('change', () => {
-        chrome.storage.local.set({
-          illegalCompanyShowType: radio.value
-        });
-      });
-    });
-
-    document.getElementById('shareIllegalCompanyData').addEventListener('change', (e) => {
-      chrome.storage.local.set({
-        shareIllegalCompanyData: e.target.checked
-      });
-    });
-
-    document.getElementById('heightLightIllegalInfoInContext').addEventListener('change', (e) => {
-      chrome.storage.local.set({
-        heightLightIllegalInfoInContext: e.target.checked
-      });
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    loadSettings();
-    bindEvents();
-  });
 })();
