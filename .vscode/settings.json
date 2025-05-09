@@ -4,9 +4,12 @@
         "chownr",
         "commondir",
         "configtest",
+        "Cpath",
+        "Csvg",
         "discoveryjs",
         "dunder",
         "esrecurse",
+        "evenodd",
         "extglob",
         "fastq",
         "finalizationregistry",
@@ -32,6 +35,7 @@
         "wrappy",
         "xtuc",
         "yallist",
-        "yocto"
+        "yocto",
+        "zhipin"
     ]
 }
