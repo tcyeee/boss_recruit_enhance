@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "Boss_ Recruit _enhance",
-  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "name": "Boss直聘拉黑插件",
+  "description": "一键拉黑996公司,拒绝做牛马",
   "version": "0.1.0",
-  "description": "My Chrome Extension",
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
   "icons": {
     "16": "icons/icon_16.png",
     "32": "icons/icon_32.png",
@@ -14,21 +14,13 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Boss_ Recruit _enhance",
+    "default_title": "boss_recruit_enhance",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "storage"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
+  "permissions": ["storage"],
+  "content_scripts": [{
+      "matches": ["https://*.zhipin.com/*"],
       "run_at": "document_idle",
-      "js": [
-        "contentScript.js"
-      ]
-    }
-  ]
+      "js": ["contentScript.js"]
+  }]
 }

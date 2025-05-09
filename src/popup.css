@@ -6,8 +6,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* normalize css ends here */
-
 
 html {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
@@ -16,17 +14,14 @@ html {
 
 body {
     width: 350px;
-    height: 300px;
+      border-radius: 5px;
+      overflow: hidden; /* 防止内容溢出边界 */
+      background-color: #ffffff;
 }
 
-.app {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
+.app{
+border-radius: 20px;
+border: 1px solid #ccc;
 }
 
 .title {
@@ -35,58 +30,159 @@ body {
     margin-bottom: 10px;
 }
 
-.subtitle {
-    font-size: 12px;
+.sub-title {
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: gray;
 }
 
-code {
-    font-size: 12px;
-    font-family: inherit;
-    background-color: rgba(254, 237, 185, .3);
-    padding: 2px 4px;
-    border-radius: 2px;
+.setting-label{
+    font-size: 14px;
+    font-weight: 500;
 }
 
-.counter-label {
-    font-size: 12px;
-    margin-bottom: 5px;
+.test{
+    border: 1px solid gray;
 }
 
-.counter {
-    font-size: 36px;
-    font-weight: 700;
+/*==========[ Component Start ]==============*/
+/* 通用开关样式 */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
 }
 
-.button-container {
-    margin-top: 15px;
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.button {
-    border: 0;
-    display: inline-block;
-    padding: 10px 20px;
-    margin-right: 4px;
-    margin-left: 4px;
-    background-color: bisque;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: transform .2s ease;
-    user-select: none;
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
 }
 
-.button:focus {
-    outline: none;
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
 }
 
-.button:hover {
-    transform: scale(1.1);
+.switch input:checked + .slider {
+  background-color: #4caf50;
 }
 
-.divider {
-    margin: 30px auto 25px;
-    width: 50px;
-    border: .5px dashed #000;
-    opacity: .1;
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
 }
+
+.radio-group {
+  display: inline-flex;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden; /* 裁切内部圆角 */
+}
+
+/* 隐藏原始单选框 */
+.radio-group input[type="radio"] {
+  display: none;
+}
+
+/* label 看起来像按钮 */
+.radio-group label {
+  padding: 4px 10px;         /* 更小的内边距 */
+  font-size: 12px;           /* 字体更小 */
+  border-right: 1px solid #ccc;
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+/* 最后一个按钮去掉右边框 */
+.radio-group label:last-of-type {
+  border-right: none;
+}
+
+/* 选中状态样式 */
+.radio-group input[type="radio"]:checked + label {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* 悬停效果 */
+.radio-group label:hover {
+  background-color: #f5f5f5;
+}
+/*==========[ Component End   ]==============*/
+
+
+
+/*==========[ Tailwind Start ]==============*/
+.mr-2 {
+  margin-right: 0.5rem; /* 8px */
+}
+
+.h-full {
+  height: 100%;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.items-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flex-col {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.mt-2 {
+  margin-top: 0.5rem; /* 8px */
+}
+
+.mt-4 {
+  margin-top: 1rem; /* 16px */
+}
+
+.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.w-80{
+    width: 80%;
+}
+
+.py-5 {
+  padding-top: 1.25rem; /* 20px */
+  padding-bottom: 1.25rem; /* 20px */
+}
+/*==========[ Tailwind End   ]==============*/

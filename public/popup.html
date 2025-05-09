@@ -1,32 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>My Chrome Extension</title>
-    <link rel="stylesheet" href="popup.css" />
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css" />
+  <!-- <script src="./popup.js"></script> -->
 </head>
+
 <body>
-  <div class="app">
-    <p class="counter-label">Counter</p>
-    <div id="counter" class="counter"></div>
+  <div class="flex items-center flex-col h-full py-5 app">
+    <p class="title">一键拉黑996公司</p>
+    <p class="sub-title">拒绝做牛马</p>
+
+    <div class="mt-4 w-80">
+      <div class="mt-2 flex justify-between">
+        <div class="setting-label">黑名单样式</div>
+        <div class="radio-group">
+          <input type="radio" id="option1" name="size" value="small" checked>
+          <label for="option1">无</label>
+          <input type="radio" id="option2" name="size" value="medium">
+          <label for="option2">警告</label>
+          <input type="radio" id="option3" name="size" value="large">
+          <label for="option3">隐藏</label>
+        </div>
+      </div>
+
+      <!-- 拉黑数据共享 -->
+      <div class="mt-2 flex justify-between">
+        <div class="setting-label">共享拉黑信息</div>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- 高标标注加班信息 -->
+      <div class="mt-2 flex justify-between">
+        <div class="setting-label">加班信息高亮</div>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- <div id="counter" class="counter"></div>
     <div class="button-container">
       <button id="decrementBtn" class="button">-</button>
       <button id="incrementBtn" class="button">+</button>
-    </div>
-
-    <hr class="divider" />
-
-    <p class="title">Chrome Extension is Ready!</p>
-    <p class="subtitle">Start by updating <code>popup.html</code></p>
+    </div> -->
   </div>
-
-  <script src="popup.js"></script>
-
-  <!--
-    This HTML file opens when you click on icon from the toolbar.
-
-    To begin the development, run `npm run watch`.
-    To create a production bundle, use `npm run build`.
-  -->
 </body>
+
 </html>
