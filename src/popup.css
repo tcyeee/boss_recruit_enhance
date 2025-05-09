@@ -14,14 +14,6 @@ html {
 
 body {
     width: 350px;
-      border-radius: 5px;
-      overflow: hidden; /* 防止内容溢出边界 */
-      background-color: #ffffff;
-}
-
-.app{
-border-radius: 20px;
-border: 1px solid #ccc;
 }
 
 .title {
