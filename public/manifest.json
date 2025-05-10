@@ -27,12 +27,5 @@
       "run_at": "document_idle",
       "js": ["contentScript.js"]
   }],
-  "web_accessible_resources": [
-    {
-      "resources": ["inject.js"],
-      "matches": ["https://www.zhipin.com/*"],
-      "use_dynamic_url": true
-    }
-  ],
   "host_permissions": ["https://www.zhipin.com/*"]
 }

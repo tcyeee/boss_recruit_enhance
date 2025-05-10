@@ -15,17 +15,54 @@
 const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
 console.log(`Page title is: '${pageTitle}' - evaluated by 'contentScript.js' `);
 
-// Inject script into the web page
-const script = document.createElement('script');
-script.src = chrome.runtime.getURL('inject.js');
-(document.head || document.documentElement).appendChild(script);
+
+const observer = new MutationObserver((mutationsList) => {
+  for (const mutation of mutationsList) {
+    for (const node of mutation.addedNodes) {
+      var isElement = node.nodeType === 1 && node instanceof HTMLElement
+      var isDiv = node.nodeName === 'DIV'
+      var hasClass = node.className && node.className.length > 0
+      if(isElement && isDiv && hasClass){
+        var isTarget = node.className.includes('job-list-container') || node.className.includes('job-detail-container') || node.className.includes('card-area')
+        // 找到了目标容器,进一步处理
+        if(isTarget) dataHandler(node)
+      }
+    }
+  }
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+function dataHandler(node){
+  if(node.className.includes('job-list-container'))leftCardHandler(node)
+  if(node.className.includes('job-detail-container'))rightCardHandler(node)
+  if(node.className.includes('card-area'))loadCardHandler(node)
+}
+
+// 左侧卡片处理
+function leftCardHandler(node){
+  var nodeList = node.querySelector('.rec-job-list')
+  nodeList.childNodes.forEach(el => {
+    if(el.nodeType !== 1) return
+    var targetNode = el.querySelector('.job-card-wrap').querySelector('.job-card-box')
+    targetNode.style.backgroundColor = 'red';
+  });
+}
+
+// 右侧详情处理
+function rightCardHandler(node){
+  // 处理右侧详情
+  // 1. 获取数据
+  // 2. 发送数据到后台
+  // 3. 接收后台返回的数据
+}
+
+// 后加载卡片处理
+function loadCardHandler(node){
+    var targetNode = node.querySelector('.job-card-wrap').querySelector('.job-card-box')
+    targetNode.style.backgroundColor = 'red';
+}
 
 
-// window.addEventListener('message', (event) => {
-//   if (event.data.type === 'FETCH_INTERCEPT') {
-//     console.log('拦截到网页 fetch 数据:', event.data.data);
-//   }
-// });
 
 // Communicate with background file by sending a message
 chrome.runtime.sendMessage(
