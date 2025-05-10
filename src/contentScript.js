@@ -124,7 +124,7 @@ function nodeHighlight(context){
 
     if(!jobDetailDescNode.querySelector('style')) return
     jobDetailDescNode.innerHTML = '';
-    const keywords = ['高级','加班', '996', '大小周'];
+    const keywords = ['加班', '996', '大小周','抗压'];
     const regex = new RegExp('(' + keywords.join('|') + ')', 'g');
     const highlightedHTML = context.replace(regex, '<span style="background: yellow; color: red; font-weight: bold;">$1</span>');
     jobDetailDescNode.innerHTML = highlightedHTML;
@@ -159,8 +159,13 @@ chrome.runtime.sendMessage(
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'COUNT') console.log(`Current count is ${request.payload.count}`);
 
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
+  if (request.type === 'SETTING'){
+    if(request.payload.heightLightIllegalInfoInContext!=undefined){
+      sendResponse({});
+      location.reload();
+    }
+  }
+
   sendResponse({});
   return true;
 });

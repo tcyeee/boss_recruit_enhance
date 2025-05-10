@@ -38,6 +38,7 @@ import './popup.css';
       chrome.storage.local.set({
         heightLightIllegalInfoInContext: e.target.checked
       });
+      send("SETTING",{heightLightIllegalInfoInContext: e.target.checked})
     });
   }
 
@@ -85,24 +86,24 @@ import './popup.css';
 
       counterStorage.set(newCount, () => {
         document.getElementById('counter').innerHTML = newCount;
-
-        // Communicate with content script of
-        // active tab by sending a message
-        chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-          const tab = tabs[0];
-          chrome.tabs.sendMessage(tab.id,
-            {
-              type: 'COUNT',
-              payload: {
-                count: newCount,
-              },
-            },
-            response => {
-              console.log('Current count value passed to contentScript file');
-            }
-          );
-        });
+        send('COUNT',{count: newCount})
       });
+    });
+  }
+
+  // 发送消息
+  function send(type, payload) {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      const tab = tabs[0];
+      chrome.tabs.sendMessage(tab.id,
+        {
+          type: type,
+          payload: payload,
+        },
+        response => {
+          console.log('Current count value passed to contentScript file');
+        }
+      );
     });
   }
 
