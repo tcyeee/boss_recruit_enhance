@@ -18,6 +18,7 @@
         "gopd",
         "iojs",
         "isexe",
+        "joblist",
         "jridgewell",
         "minipass",
         "minizlib",

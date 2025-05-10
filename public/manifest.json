@@ -17,11 +17,22 @@
     "default_title": "boss_recruit_enhance",
     "default_popup": "popup.html"
   },
-  "permissions": ["storage", "scripting", "tabs"],
+  "permissions": [
+    "storage", 
+    "scripting",
+    "tabs"
+  ],
   "content_scripts": [{
       "matches": ["https://www.zhipin.com/*"],
       "run_at": "document_idle",
       "js": ["contentScript.js"]
   }],
+  "web_accessible_resources": [
+    {
+      "resources": ["inject.js"],
+      "matches": ["https://www.zhipin.com/*"],
+      "use_dynamic_url": true
+    }
+  ],
   "host_permissions": ["https://www.zhipin.com/*"]
 }

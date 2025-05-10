@@ -13,9 +13,19 @@
 
 // Log `title` of current active web page
 const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
-console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
-);
+console.log(`Page title is: '${pageTitle}' - evaluated by 'contentScript.js' `);
+
+// Inject script into the web page
+const script = document.createElement('script');
+script.src = chrome.runtime.getURL('inject.js');
+(document.head || document.documentElement).appendChild(script);
+
+
+// window.addEventListener('message', (event) => {
+//   if (event.data.type === 'FETCH_INTERCEPT') {
+//     console.log('拦截到网页 fetch 数据:', event.data.data);
+//   }
+// });
 
 // Communicate with background file by sending a message
 chrome.runtime.sendMessage(
@@ -32,9 +42,7 @@ chrome.runtime.sendMessage(
 
 // Listen for message
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
-  }
+  if (request.type === 'COUNT') console.log(`Current count is ${request.payload.count}`);
 
   // Send an empty response
   // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
