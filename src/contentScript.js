@@ -16,6 +16,7 @@ const pageTitle = document.head.getElementsByTagName('title')[0].innerHTML;
 console.log(`Page title is: '${pageTitle}' - evaluated by 'contentScript.js' `);
 
 
+// [监听] 全局信息
 const observer = new MutationObserver((mutationsList) => {
   for (const mutation of mutationsList) {
     for (const node of mutation.addedNodes) {
@@ -32,9 +33,24 @@ const observer = new MutationObserver((mutationsList) => {
 });
 observer.observe(document.body, { childList: true, subtree: true });
 
+// [监听] 职位详情
+const observer2 = new MutationObserver((mutationsList) => {
+  for (const mutation of mutationsList) {
+    if (mutation.type !== 'childList') return
+    mutation.addedNodes.forEach(node => {
+      if (node.nodeType !== 1 || node.nodeName !== 'DIV') return
+      // 添加在请求头拉黑按钮
+      if(node.className.includes('job-detail-op')) addBlockButton(node)
+      // 在内容中高亮加班信息
+      if(node.className.includes('job-detail-body')) hightLightInfo(node)
+    });
+  }
+});
+
+// 信息分发
 function dataHandler(node){
   if(node.className.includes('job-list-container'))leftCardHandler(node)
-  if(node.className.includes('job-detail-container'))rightCardHandler(node)
+  if(node.className.includes('job-detail-container'))detailHandler(node)
   if(node.className.includes('card-area'))loadCardHandler(node)
 }
 
@@ -48,12 +64,10 @@ function leftCardHandler(node){
   });
 }
 
-// 右侧详情处理
-function rightCardHandler(node){
-  // 处理右侧详情
-  // 1. 获取数据
-  // 2. 发送数据到后台
-  // 3. 接收后台返回的数据
+// 对招聘详情进行处理
+function detailHandler(node){
+  var targetNode = node.querySelector('.job-detail-box')
+  observer2.observe(targetNode, { childList: true, subtree: true });
 }
 
 // 后加载卡片处理
@@ -62,6 +76,35 @@ function loadCardHandler(node){
     targetNode.style.backgroundColor = 'red';
 }
 
+// TODO 在按钮区域添加 "拉黑按钮"
+function addBlockButton(node){
+  const blockBtn = document.createElement('a');
+  blockBtn.href = 'javascript:;';
+  blockBtn.textContent = '拉黑';
+  blockBtn.style.marginLeft = '15px';
+  blockBtn.style.padding = '7px 20px';
+  blockBtn.style.background = 'red';
+  blockBtn.style.color = 'white';
+  blockBtn.style.borderRadius = '8px';
+  blockBtn.style.marginTop = 'auto';
+  blockBtn.style.float = 'left';
+  blockBtn.style.textDecoration = 'none'; // 去掉下划线（可选）
+  blockBtn.style.cursor = 'pointer';      // 鼠标变成手型（可选）
+
+  blockBtn.addEventListener('click', () => {
+    // TODO 收集公司名称到后台
+    alert('已拉黑该公司！');
+  });
+  node.appendChild(blockBtn);
+}
+
+// 在内容中高亮加班信息
+function hightLightInfo(node){
+  node.querySelector('.desc').childNodes.forEach(el => {
+    if (el.nodeType !== 3) return
+    
+  })
+}
 
 
 // Communicate with background file by sending a message
