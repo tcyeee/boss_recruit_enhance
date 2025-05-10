@@ -22,7 +22,6 @@ import './popup.css';
     const radios = document.querySelectorAll('input[name="illegalCompanyShowType"]');
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
-        console.log(`[996] illegalCompanyShowType: ${radio.value}`);
         chrome.storage.local.set({
           illegalCompanyShowType: radio.value
         });
@@ -30,14 +29,12 @@ import './popup.css';
     });
 
     document.getElementById('shareIllegalCompanyData').addEventListener('change', (e) => {
-      console.log(`[996] shareIllegalCompanyData: ${e.target.checked}`);
       chrome.storage.local.set({
         shareIllegalCompanyData: e.target.checked
       });
     });
 
     document.getElementById('heightLightIllegalInfoInContext').addEventListener('change', (e) => {
-      console.log(`[996] heightLightIllegalInfoInContext: ${e.target.checked}`);
       chrome.storage.local.set({
         heightLightIllegalInfoInContext: e.target.checked
       });
