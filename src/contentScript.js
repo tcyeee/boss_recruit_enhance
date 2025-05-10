@@ -60,7 +60,7 @@ function leftCardHandler(node){
   nodeList.childNodes.forEach(el => {
     if(el.nodeType !== 1) return
     var targetNode = el.querySelector('.job-card-wrap').querySelector('.job-card-box')
-    targetNode.style.backgroundColor = 'red';
+    // targetNode.style.backgroundColor = 'red';
   });
 }
 
