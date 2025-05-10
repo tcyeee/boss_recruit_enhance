@@ -92,18 +92,46 @@ function addBlockButton(node){
   blockBtn.style.cursor = 'pointer';      // 鼠标变成手型（可选）
 
   blockBtn.addEventListener('click', () => {
-    // TODO 收集公司名称到后台
-    alert('已拉黑该公司！');
+    blockBtn.textContent = blockBtn.textContent=="拉黑"?"已拉黑":"拉黑"
+    // TODO 数据联动
   });
   node.appendChild(blockBtn);
 }
 
-// 在内容中高亮加班信息
+var jobDetailDescNode = null
+var jobDetailContent = null
+
+// [监听] 职位详情变动
+const observer3 = new MutationObserver((mutationsList) => {
+  for (const mutation of mutationsList) {
+    if (mutation.type !== 'childList') return
+    nodeHighlight(jobDetailContent)
+  }
+});
+
 function hightLightInfo(node){
-  node.querySelector('.desc').childNodes.forEach(el => {
-    if (el.nodeType !== 3) return
-    
-  })
+  var targetNode = node.querySelector('.desc')
+  jobDetailDescNode = targetNode
+  nodeHighlightWithRawData(targetNode)
+  observer3.observe(targetNode, { childList: true, subtree: true });
+}
+
+// 拿到职位详情,替换原有Node
+function nodeHighlight(context){
+  const styleTag = jobDetailDescNode.querySelector('style');
+  if(!styleTag) return
+  jobDetailDescNode.innerHTML = '';
+  jobDetailDescNode.textContent = context;
+  console.log("修改完成");
+}
+
+function nodeHighlightWithRawData(node){
+  var desc = ""
+  node.childNodes.forEach(el => {
+    if (el.nodeType === 3) desc += String(el.textContent).trim()
+  });
+  jobDetailContent = desc
+  nodeHighlight(desc)
 }
 
 
