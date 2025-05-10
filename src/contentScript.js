@@ -118,13 +118,18 @@ function hightLightInfo(node){
 
 // 拿到职位详情,替换原有Node
 function nodeHighlight(context){
-  if(!jobDetailDescNode.querySelector('style')) return
-  jobDetailDescNode.innerHTML = '';
-  const keywords = ['高级','加班', '996', '大小周'];
-  const regex = new RegExp('(' + keywords.join('|') + ')', 'g');
-  const highlightedHTML = context.replace(regex, '<span style="background: yellow; color: red; font-weight: bold;">$1</span>');
-  jobDetailDescNode.innerHTML = highlightedHTML;
-  console.log("修改完成");
+  chrome.storage.local.get('heightLightIllegalInfoInContext', (result) => {
+    const shouldHighlight = result.heightLightIllegalInfoInContext;
+    if(!shouldHighlight) return
+
+    if(!jobDetailDescNode.querySelector('style')) return
+    jobDetailDescNode.innerHTML = '';
+    const keywords = ['高级','加班', '996', '大小周'];
+    const regex = new RegExp('(' + keywords.join('|') + ')', 'g');
+    const highlightedHTML = context.replace(regex, '<span style="background: yellow; color: red; font-weight: bold;">$1</span>');
+    jobDetailDescNode.innerHTML = highlightedHTML;
+    console.log("修改完成");
+  })
 }
 
 function nodeHighlightWithRawData(node){
